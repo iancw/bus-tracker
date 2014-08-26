@@ -260,7 +260,7 @@ function showAll(){
 function initialize() {
   // Query location from browser, call showPosition if it works
   navigator.geolocation.getCurrentPosition(showPosition,showError);
-  //startPollingBuses();
+  startPollingBuses();
 }
 
 function startPollingBuses(){

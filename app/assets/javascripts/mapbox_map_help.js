@@ -31,22 +31,36 @@ function makeNewMarker(bus){
 
 
 function drawRoutesKML() {
-  routeKML[0] = new google.maps.KmlLayer('http://iancwill.com/1.kmz?new4plz',{preserveViewport: true});
-  routeKML[0].setMap(map);
-  routeKML[1] = new google.maps.KmlLayer('http://iancwill.com/2.kmz?new4plz',{preserveViewport: true});
-  routeKML[1].setMap(map);
-  routeKML[2] = new google.maps.KmlLayer('http://iancwill.com/3.kmz?new4plz',{preserveViewport: true});
-  routeKML[2].setMap(map);
-  routeKML[3] = new google.maps.KmlLayer('http://iancwill.com/4.kmz?new4plz',{preserveViewport: true});
-  routeKML[3].setMap(map);
-  show_debug("Loaded route KML...");
 
-  for(var i=0; i<routeKML.length; i++){
-    google.maps.event.addListener(routeKML[i], 'click', function(kmlEvent) {
-      var routeid=kmlEvent.featureData.name;
-      primeRoute(routeid);
-    });
+  /*
+   * Won't work until I figure out CROS and serve it up
+   * as a KML (so huge!) versus a KMZ
+   *
+   * Trying to import these static layers into the map project
+   * instead
+   *
+   * Bummer...too much data for a free account.
+   *
+   * To enable CORS, added this to .htaccess file on iancwill.com server:
+   *
+   * Header set Access-Control-Allow-Origin "*"
+   */
+  for (i=0; i<4; i++){
+    var runLayer = omnivore.kml('http://iancwill.com/'+(i+1)+'.kml')
+     .on('ready', function() {
+          map.fitBounds(runLayer.getBounds());
+      })
+      .addTo(map);
+
+      runLayer.on('click', function(e){
+      e.layer.openPopup();
+      });
+      runLayer.on('mouseout', function(e){
+        e.layer.closePopup();
+      });
+      routeKML[i] = runLayer;
   }
+
 }
 
 function showPosition(position)
@@ -55,6 +69,7 @@ function showPosition(position)
   lon = position.coords.longitude;
   L.mapbox.accessToken = 'pk.eyJ1IjoiaWFuY3ciLCJhIjoiSEZiamxsSSJ9.1ESfrm__e-yimmWzote0pA';
   map = L.mapbox.map('map', 'iancw.jb4a3a5b').setView([lat, lon], 9);
+  drawRoutesKML();
 }
 
 function drawShape(shape){

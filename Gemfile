@@ -18,6 +18,7 @@ gem 'coffee-rails', '~> 3.2.1'
 gem 'uglifier', '>= 1.0.3'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
+gem 'rack-cors', :require => 'rack/cors'
 
 group :production do
   gem 'pg'
