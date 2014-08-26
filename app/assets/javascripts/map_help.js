@@ -194,3 +194,17 @@ function makeMarker(bus){
   };
 }
 
+function setIconOpacity(marker, opac){
+  var icn = marker.getIcon();
+  icn.fillOpacity = opac;
+  marker.setIcon(icn);
+}
+
+function setMap(marker, map){
+  marker.setMap(map);
+}
+
+function clearMap(marker){
+  marker.setMap(null);
+}
+

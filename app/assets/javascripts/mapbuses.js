@@ -31,7 +31,7 @@ function clearRoutePath()
   {
     for(var i=0; i<routePath.length; i++)
     {
-      routePath[i].setMap(null);
+      clearMap(routePath[i]);
     }
   }
 }
@@ -110,7 +110,7 @@ function filterBusMarkers()
     if(markers[bus.busid] != null){
       if(shouldHide(bus))
       {
-        markers[bus.busid].setMap(null);
+        clearMap(markers[bus.busid])
       }
     }
   }
@@ -134,7 +134,7 @@ function shouldHide(bus){
 function hideRouteKML()
 {
   for(var i=0; i<routeKML.length; i++){
-    routeKML[i].setMap(null);  
+    clearMap(routeKML[i])
   }
 }
 
@@ -142,7 +142,7 @@ function hideRouteKML()
 function showRouteKML()
 {
   for(var i=0; i<routeKML.length; i++){
-    routeKML[i].setMap(map);
+    setMap(routeKML[i], map);
   }
 }
 
@@ -161,7 +161,7 @@ function updateBusMarkers(){
       if(isAncient(busTime) || shouldHide(bus)){
         //remove bus
         if(markers[bus.busid] != null){
-          markers[bus.busid].setMap(null);
+          clearMap(markers[bus.busid]);
         }
       }else{
         drawBus(bus);
@@ -184,7 +184,7 @@ function showStops(){
 
 function hideStops(){
   for(var i=0; i<stopMarkers.length; i++){
-    stopMarkers[i].setMap(null);
+    clearMap(stopMarkers[i]);
   }
   stopMarkers=[];
 }
@@ -221,7 +221,7 @@ function drawBus(bus){
   }else{
     //Or create a new marker if it doesnt
     makeNewMarker(bus);
-  }//end else
+  }
 }
 
 function getIconOpacity(bus)
@@ -243,9 +243,8 @@ function updateIconOpacity(bus)
   if(markers[bus.busid] == null){ return; }
   var marker = markers[bus.busid];
   if(marker == null){ return; }
-  var icn = marker.getIcon();
-  icn.fillOpacity = getIconOpacity(bus);
-  marker.setIcon(icn);
+
+  setIconOpacity(marker, getIconOpacity(bus));
 }
 
 function showAll(){
@@ -260,6 +259,7 @@ function showAll(){
 
 function initialize() {
   show_debug("initializing...");
+  // Query location from browser, call showPosition if it works
   navigator.geolocation.getCurrentPosition(showPosition,showError);
   startPollingBuses();
 }
