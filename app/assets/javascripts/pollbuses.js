@@ -1,4 +1,3 @@
-
 var busy=false;
 var pollCount=0;
 var request = false;
@@ -82,7 +81,7 @@ function newStopMarkers(content)
 
 
 function newBusPositions(content)
-{            
+{
     //updateMarkeres is defined in mapbuses.js
     buses = jQuery.parseJSON(content);
     updateBusMarkers();

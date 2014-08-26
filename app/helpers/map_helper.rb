@@ -4,9 +4,9 @@ require 'json'
 
 module MapHelper
 
-	#This is the WMATA developer API key
+#This is the WMATA developer API key
 #Use limits are once every 5 seconds or 10000 times per day
-#Try to avoid using overrunning usage limits 
+#Try to avoid using overrunning usage limits
 #WMATA_KEY = '7ksbn5vbbxqanrmgg9jczkag'
 
 
