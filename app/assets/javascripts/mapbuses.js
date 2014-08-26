@@ -258,10 +258,9 @@ function showAll(){
 }
 
 function initialize() {
-  show_debug("initializing...");
   // Query location from browser, call showPosition if it works
   navigator.geolocation.getCurrentPosition(showPosition,showError);
-  startPollingBuses();
+  //startPollingBuses();
 }
 
 function startPollingBuses(){
