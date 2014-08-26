@@ -23,8 +23,8 @@ With rails installed, run the following steps
 
 3. bundle exec rake populate:all
   This fills the database with information on bus routes, bus stops, and current bus positions.
-  It can take quite awhile to run, as there are many stops and routes in the system, and this all must
-  be pulled from WMATA's servers.
+  It can take quite awhile to run, as there are many stops and routes in the system, and this all must be pulled from WMATA's servers.
+  - If rake fails, you might have to make sure there's a link in /usr/local/lib/ to /usr/local/opt/sqlite/lib/libsqlite3.0.dylib.  Theoretically this should be there on OSX.
 
 4. foreman start
 	This starts the server with the web application thread, the clock thread that updates the bus data, and the worker thread that processes this data.  This emulates a production environment.
