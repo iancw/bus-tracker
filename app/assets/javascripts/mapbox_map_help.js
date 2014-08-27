@@ -4,29 +4,6 @@
 */
 
 function makeNewMarker(bus){
-  var myLatlng = new google.maps.LatLng(bus.lat, bus.lon);
-  var pinImage=makeMarker(bus);
-  var marker = new google.maps.Marker({
-     position: myLatlng,
-     map: map,
-     title: bus.headsign, //bus.wmataid+": "+bus.headsign+" ("+bus.busid+")",
-     icon: pinImage,
-     optimized: false // http://stackoverflow.com/questions/8721327/effects-and-animations-with-google-maps-markers/8722970#8722970
-  });
-  markers[bus.busid] = marker;
-  marker.setMap(map);
-
-  google.maps.event.addListener(marker, 'click', function() {
-    var busid = bus.id;
-    pollPath("/buses/"+busid+"?minimal=true", http_nonsense_wrapper(function(content_text){
-      if(openinfo !== null){
-        openinfo.close();
-      }
-      var infowindow = new google.maps.InfoWindow({ content: content_text });
-      infowindow.open(map,marker);
-      openinfo=infowindow;
-    }));
-  });
 }
 
 
@@ -45,22 +22,16 @@ function drawRoutesKML() {
    *
    * Header set Access-Control-Allow-Origin "*"
    */
-  for (i=0; i<4; i++){
+  for (i=2; i<3; i++){
     var runLayer = omnivore.kml('http://iancwill.com/'+(i+1)+'.kml')
      .on('ready', function() {
-          map.fitBounds(runLayer.getBounds());
+          runLayer.eachLayer(function(layer){
+            layer.bindPopup(layer.feature.properties.description);
+          });
       })
       .addTo(map);
-
-      runLayer.on('click', function(e){
-      e.layer.openPopup();
-      });
-      runLayer.on('mouseout', function(e){
-        e.layer.closePopup();
-      });
       routeKML[i] = runLayer;
   }
-
 }
 
 function showPosition(position)
