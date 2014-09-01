@@ -2,8 +2,41 @@
 * This is the google API key, required to use their maps API
 * mapbox api: pk.eyJ1IjoiaWFuY3ciLCJhIjoiSEZiamxsSSJ9.1ESfrm__e-yimmWzote0pA
 */
+var popups = {};
 
 function makeNewMarker(bus){
+  // bus.lat
+  // bus.lon
+  // bus.headsign
+  // bus.busid
+  // bus.wmataid
+  // bus.direction
+  L.mapbox.accessToken = 'pk.eyJ1IjoiaWFuY3ciLCJhIjoiSEZiamxsSSJ9.1ESfrm__e-yimmWzote0pA';
+  var marker = L.marker([bus.lat, bus.lon], {
+    icon: L.mapbox.marker.icon({
+      'marker-size': 'large',
+      'marker-symbol':'bus',
+      'marker-color':'#4775A3'
+  })});
+  var p=L.popup();
+  marker.bindPopup(p);
+  popups[bus.busid] = p.setContent(bus.headsign+"("+bus.wmataid+")");
+  map.on('click', function(){
+    // bus.busid?
+    var busid = bus.id;
+    pollPath("/buses/"+busid+"?minimal=true", http_nonsense_wrapper(function(content_text){
+      p.setContent(content_text);
+      p.update();
+    }));
+  }, marker);
+
+  markers[bus.busid] = marker;
+  marker.addTo(map);
+}
+
+function updateExistingMarker(bus){
+  var marker = markers[bus.busid];
+  marker.setLatLng(L.latLng(bus.lat, bus.lon));
 }
 
 
@@ -81,25 +114,6 @@ function drawStop(stop){
   return marker;
 }
 
-function updateExistingMarker(bus){
-  var myLatlng = new google.maps.LatLng(bus.lat, bus.lon);
-  if(markers[bus.busid].getMap() == null){
-    markers[bus.busid].setMap(map);
-  }
-  if(!markers[bus.busid].getPosition().equals(myLatlng)){
-      markers[bus.busid].setPosition(myLatlng);
-      markers[bus.busid].setAnimation(google.maps.Animation.BOUNCE);
-      //Turn off the bouncing in 3 seconds...
-      setTimeout(function(){
-        var myMarker = markers[bus.busid];
-        updateIconOpacity(bus.busid);
-        myMarker.setAnimation(null);
-      }, 3000);
-    }else{
-      updateIconOpacity(bus);
-    }
-}
-
 function setStopInfoWindow(marker, stop){
   google.maps.event.addListener(marker, 'click', function() {
     pollPath("/stops/"+stop.id+"?minimal=true", http_nonsense_wrapper(function(responseText){    
@@ -170,16 +184,14 @@ function makeMarker(bus){
 }
 
 function setIconOpacity(marker, opac){
-  var icn = marker.getIcon();
-  icn.fillOpacity = opac;
-  marker.setIcon(icn);
+  marker.setOpacity(opac);
 }
 
 function setMap(marker, map){
-  marker.setMap(map);
+  //marker.setMap(map);
 }
 
 function clearMap(marker){
-  marker.setMap(null);
+  //marker.clearLayers();
 }
 
