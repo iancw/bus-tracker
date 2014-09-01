@@ -6,5 +6,5 @@ handler do |job|
 end
 
 
-every(10.seconds, 'system "bundle exec rake populate:buses"'){ system( "bundle exec rake populate:buses") }
+every(120.seconds, 'system "bundle exec rake populate:buses"'){ system( "bundle exec rake populate:buses") }
 
