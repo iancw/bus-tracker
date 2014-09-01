@@ -72,7 +72,7 @@ function showPosition(position)
   lat = position.coords.latitude;
   lon = position.coords.longitude;
   L.mapbox.accessToken = 'pk.eyJ1IjoiaWFuY3ciLCJhIjoiSEZiamxsSSJ9.1ESfrm__e-yimmWzote0pA';
-  map = L.mapbox.map('map', 'iancw.jb4a3a5b').setView([lat, lon], 9);
+  map = L.mapbox.map('map_canvas', 'iancw.jb4a3a5b').setView([lat, lon], 9);
   drawRoutesKML();
 }
 

@@ -13,7 +13,7 @@
   <![endif]-->
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
-  <%= javascript_include_tag "mapbox_map_help" %>
+  <%= javascript_include_tag "google_map_help" %>
   <%= csrf_meta_tags %>
   <!-- javascript and headers for the map -->
   <!DOCTYPE html>
@@ -31,9 +31,6 @@
       <script type="text/javascript"
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAAQDOZpCb33qnlU5xcBmf_n8CQ4p_qg6s&sensor=true">
       </script>
-      <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script>
-      <link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css' rel='stylesheet' />
-      <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
     <!-- end of javascript headers -->
     </head>
 

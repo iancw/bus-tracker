@@ -5,12 +5,20 @@ include WmataHelper
 
 
   def index
-  	#everytime the site index is accessed update the bus and stop table
+    #everytime the site index is accessed update the bus and stop table
     @buses = Bus.all
     updateBusTable
-	   
     respond_to do |format|
       format.html { render :index, layout: 'maplayout' }
+      format.json { render json: @buses }
+    end
+  end
+
+  def google_index
+    @buses = Bus.all
+    updateBusTable
+    respond_to do |format|
+      format.html { render :index, layout: 'google_maplayout' }
       format.json { render json: @buses }
     end
   end
